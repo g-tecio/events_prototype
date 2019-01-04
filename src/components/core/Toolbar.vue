@@ -1,7 +1,7 @@
 <template>
   <v-img
     :src="image"
-    max-height="350px"
+    max-height="450px"
     max-widht="100%"
     :aspect-ratio="3"
     position="center"
@@ -98,6 +98,7 @@
         </v-flex>
       </v-toolbar-items>
     </v-toolbar>
+    <h2 class="event_label">Events</h2>
   </v-img>
 </template>
 
@@ -164,5 +165,15 @@ export default {
 <style>
   #core-toolbar a {
     text-decoration: none;
+  }
+
+  .event_label{
+    border-bottom: 1px solid white;
+    color: white;
+    margin-left: 10px;
+    width: 35%;
+    bottom: 0;
+    position: absolute;
+
   }
 </style>
