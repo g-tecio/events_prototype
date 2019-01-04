@@ -1,11 +1,9 @@
 <template>
   <v-container fill-height fluid grid-list-xl>
-    
     <v-layout justify-center wrap>
       <v-flex xs12 md12>
-          
-        <material-card color="blue" title="New Event" text="Create a new event">
-           <v-img :src="event.event_image" aspect-ratio="3"></v-img>
+        <material-card color="blue" title="Event" text="Details about the event">
+           <v-img :src="event.event_image" aspect-ratio="3" class="img-event"></v-img>
           <v-form>
             <v-container py-0>
               <v-layout wrap>
@@ -57,7 +55,6 @@
                     class="dark-text"
                     color="blue"
                     v-model="event.date.formated_date"
-                    :landscape="landscape"
                     :reactive="reactive"
                     :disabled="true"
                   ></v-date-picker>
@@ -137,3 +134,9 @@ export default {
   }
 };
 </script>
+
+<style lang="stylus">
+  .img-event
+    border radius 4px
+</style>
+

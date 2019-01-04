@@ -54,7 +54,6 @@
                     class="dark-text"
                     color="blue"
                     v-model="event.date.formated_date"
-                    :landscape="landscape"
                     :reactive="reactive"
                   ></v-date-picker>
                 </v-flex>
