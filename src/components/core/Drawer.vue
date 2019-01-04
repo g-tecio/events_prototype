@@ -6,7 +6,7 @@
     dark
     floating
     persistent
-    mobile-break-point="991"
+    mobile-break-point="9091"
     width="260"
   >
     <v-img

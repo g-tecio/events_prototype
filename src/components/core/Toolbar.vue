@@ -135,7 +135,7 @@ export default {
       //
     },
     onResponsiveInverted () {
-      if (window.innerWidth < 991) {
+      if (window.innerWidth < 90091) {
         this.responsive = true
         this.responsiveInput = false
       } else {
