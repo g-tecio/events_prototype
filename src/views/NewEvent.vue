@@ -4,61 +4,96 @@
       <v-flex xs12 md12>
         <material-card color="blue" title="New Event" text="Create a new event">
           <v-form>
-            <v-container py-0>
-              <v-layout wrap>
-                <v-flex xs12 md4>
+            <v-container grid-list-xl text-xs-center>
+              <v-layout row wrap>
+                <v-flex xs12 md6>
                   <v-text-field label="Event Name" v-model="event.event_name"/>
                 </v-flex>
+                <v-flex xs12 md6>
+                  <v-text-field label="Venue Name" v-model="event.venue_name"/>
+                </v-flex>
                 <!-- Addresss -->
-                <v-flex xs12 md8>
+                <v-flex xs12 md6>
                   <v-text-field v-model="event.address.line_address1" label="Line address 1"/>
                 </v-flex>
                 <v-flex xs12 md6>
                   <v-text-field v-model="event.address.line_address2" label="Line address 2"/>
                 </v-flex>
-                <v-flex xs12 md3>
+                <v-flex xs12 md6>
                   <v-text-field v-model="event.address.country" label="Country"/>
                 </v-flex>
-                <v-flex xs12 md3>
+                <v-flex xs12 md6>
                   <v-text-field v-model="event.address.state" label="State"/>
                 </v-flex>
-                <v-flex xs12 md4>
+                <v-flex xs12 md6>
                   <v-text-field v-model="event.address.city" label="City"/>
                 </v-flex>
-                <v-flex xs12 md2>
+                <v-flex xs12 md6>
                   <v-text-field v-model="event.address.zip_code" label="Zip code"/>
                 </v-flex>
+                <v-flex xs12>
+                  <v-img :aspect-ratio="16/9" src="https://cdn.vuetifyjs.com/images/parallax/material.jpg">
+                    <v-layout pa-2 column fill-height class="lightbox white--text">
+                      <v-spacer></v-spacer>
+                      <v-flex shrink>
+                        <div class="subheading">Add Location</div>
+                      </v-flex>
+                    </v-layout>
+                  </v-img>
+                </v-flex>
+              </v-layout>
+
+              <v-layout row wrap>
                 <v-flex xs12 md6>
                   <v-text-field v-model="event.address.description" label="Address Description"/>
                 </v-flex>
 
                 <!-- Event generalities -->
-                <v-flex xs12 md3>
-                  <v-text-field v-model="event.event_type" label="Event Type"/>
+                <v-flex xs12 md6>
+                  <v-select :items="event_type" v-model="event.event_type" label="Event Type"></v-select>
                 </v-flex>
-                <v-flex xs12 md3>
-                  <v-text-field v-model="event.event_attire" label="Attire"/>
+                <v-flex xs12 md6>
+                  <v-select :items="event_attire" v-model="event.event_attire" label="Event Attire"></v-select>
                 </v-flex>
-                <v-flex xs12 md4>
-                  <v-text-field v-model="event.revenue_generation" label="Revenue generation"/>
+                <v-flex xs12 md6>
+                  <v-select :items="revenue_generation" v-model="event.revenue_generation" label="Revenue Generation"></v-select>
                 </v-flex>
-                <v-flex xs12 md2>
+                <v-flex xs12 md6>
                   <v-text-field v-model="event.capacity" label="Capacity"/>
+                </v-flex>
+                <v-flex xs12 md6>
+                  <v-select v-model="event.status" :items="status" label="Status"></v-select>
                 </v-flex>
                 
                 <v-flex xs12>
                   <v-textarea v-model="event.description" label="Description"/>
                 </v-flex>
-                <v-flex xs12 md9>
-                  <v-date-picker
-                    class="dark-text"
-                    color="blue"
-                    v-model="event.date.formated_date"
-                    :reactive="reactive"
-                  ></v-date-picker>
-                </v-flex>
-                <v-flex xs12 md3>
-                  <v-select v-model="event.status" :items="status" label="Status"></v-select>
+                <v-flex xs12 md6>
+                  <v-menu
+                    ref="menu"
+                    :close-on-content-click="false"
+                    v-model="menu"
+                    :nudge-right="40"
+                    :return-value.sync="date"
+                    lazy
+                    transition="scale-transition"
+                    offset-y
+                    full-width
+                    min-width="290px"
+                  >
+                    <v-text-field
+                      slot="activator"
+                      v-model="event.date.formated_date"
+                      label="Start Date"
+                      prepend-icon="mdi-calendar"
+                      readonly
+                    ></v-text-field>
+                    <v-date-picker v-model="event.date.formated_date" no-title scrollable>
+                      <v-spacer></v-spacer>
+                      <v-btn flat color="primary" @click="menu = false">Cancel</v-btn>
+                      <v-btn flat color="primary" @click="$refs.menu.save(event.date.formated_date)">OK</v-btn>
+                    </v-date-picker>
+                  </v-menu>
                 </v-flex>
 
                 <!-- image area -->
@@ -103,7 +138,7 @@ export default {
           zip_code: "",
           description: ""
         },
-        venue_name: "asd",
+        venue_name: "",
         capacity: 0,
         description: "",
         location: {
@@ -125,9 +160,11 @@ export default {
         event_type: "",
         revenue_generation: ""
       },
+      event_type: ["Online", "Physical"],
+      event_attire: ["Casual", "Cooktail", "Formal", "Smart Casual"],
+      revenue_generation: ["Auction", "Dinner", "Gala", "Festival", "Trade Show"],
       status: ["Pending", "Not started", "In progress", "Finished"],
       reactive: true,
-      landscape: true
     };
   },
   methods: {
