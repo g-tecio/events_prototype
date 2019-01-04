@@ -20,13 +20,17 @@
           </v-data-table>
         </material-card>
       </v-flex>
-      
     </v-layout>
   </v-container>
 </template>
 
 <script>
 import axios from "axios";
+import {
+  mapMutations,
+  mapState
+} from 'vuex'
+
 export default {
   data: () => ({
     api_url:
