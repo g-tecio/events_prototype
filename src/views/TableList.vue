@@ -15,7 +15,7 @@
               <td>{{ item.address.city }}</td>
               <td>{{ item.status }}</td>
               <td>{{ item.date.formated_date }}</td>
-              <td><router-link :to="{ path: '/view-event/' + item.id }"><v-icon>mdi-eye</v-icon> See details</router-link></td>
+              <td><router-link :to="{ path: '/view-event/' + item.id }"><v-icon>mdi-eye</v-icon> Show Info</router-link></td>
             </template>
           </v-data-table>
         </material-card>

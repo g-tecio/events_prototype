@@ -61,11 +61,17 @@
                 <v-flex xs12 md6>
                   <v-text-field disabled v-model="event.capacity" label="Capacity"/>
                 </v-flex>
-                
+                <v-flex xs12 md6>
+                  <v-text-field disabled v-model="event.status" label="Status"/>
+                </v-flex>
                 <v-flex xs12>
                   <v-textarea disabled v-model="event.description" label="Description"/>
                 </v-flex>
+
                 <v-flex xs12 md6>
+                  <v-text-field disabled v-model="event.date.time_zone" label="Time Zone"/>
+                </v-flex>
+                <v-flex xs6 md3>
                   <v-menu
                     ref="menu"
                     :close-on-content-click="false"
@@ -87,15 +93,39 @@
                       readonly
                       disabled
                     ></v-text-field>
-                    <v-date-picker v-model="event.date.formated_date" no-title scrollable>
+                    <v-date-picker disabled v-model="event.date.formated_date" no-title scrollable>
                       <v-spacer></v-spacer>
                       <v-btn flat color="primary" @click="menu = false">Cancel</v-btn>
                       <v-btn flat color="primary" @click="$refs.menu.save(event.date.formated_date)">OK</v-btn>
                     </v-date-picker>
                   </v-menu>
                 </v-flex>
-                <v-flex xs12 md6>
-                  <v-select disabled v-model="event.status" :items="status" item-text="event.status" ></v-select>
+                <v-flex xs6 md3>
+                  <v-dialog
+                    ref="dialog"
+                    v-model="modal2"
+                    :return-value.sync="time"
+                    persistent
+                    lazy
+                    full-width
+                    width="290px"
+                    disabled
+                  >
+                    <v-text-field
+                      slot="activator"
+                      v-model="event.date.time"
+                      label="Start Time"
+                      append-icon="mdi-clock-outline"
+                      readonly
+                      disabled
+                    ></v-text-field>
+                    
+                    <v-time-picker disabled v-model="event.date.time" actions>
+                      <v-spacer></v-spacer>
+                      <v-btn flat color="primary" @click="modal2 = false">Cancel</v-btn>
+                      <v-btn flat color="primary" @click="$refs.dialog.save(event.date.time)">OK</v-btn>
+                    </v-time-picker>
+                  </v-dialog>
                 </v-flex>
 
                 <!-- image area -->
@@ -134,7 +164,7 @@ export default {
           zip_code: "",
           description: ""
         },
-        venue_name: "asd",
+        venue_name: "",
         capacity: 0,
         description: "",
         location: {
@@ -145,8 +175,8 @@ export default {
           day: "07",
           formated_date: "",
           month: "07",
-          time: "456",
-          time_zone: "123",
+          time: "",
+          time_zone: "",
           year: "123"
         },
         status: "",
@@ -157,7 +187,6 @@ export default {
         revenue_generation: ""
       },
       reactive: true,
-      status: ["Pending", "Not started", "In progress", "Finished"],
     };
   },
   created() {

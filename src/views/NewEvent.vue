@@ -64,11 +64,14 @@
                 <v-flex xs12 md6>
                   <v-select v-model="event.status" :items="status" label="Status"></v-select>
                 </v-flex>
-                
                 <v-flex xs12>
                   <v-textarea v-model="event.description" label="Description"/>
                 </v-flex>
+
                 <v-flex xs12 md6>
+                  <v-select v-model="event.date.time_zone" :items="time_zone" label="Time Zone"></v-select>
+                </v-flex>
+                <v-flex xs6 md3>
                   <v-menu
                     ref="menu"
                     :close-on-content-click="false"
@@ -95,15 +98,43 @@
                     </v-date-picker>
                   </v-menu>
                 </v-flex>
+                <v-flex xs6 md3>
+                  <v-dialog
+                    ref="dialog"
+                    v-model="modal2"
+                    :return-value.sync="time"
+                    persistent
+                    lazy
+                    full-width
+                    width="290px"
+                  >
+                    <v-text-field
+                      slot="activator"
+                      v-model="event.date.time"
+                      label="Start Time"
+                      append-icon="mdi-clock-outline"
+                      readonly
+                    ></v-text-field>
+                    
+                    <v-time-picker v-model="event.date.time" actions>
+                      <v-spacer></v-spacer>
+                      <v-btn flat color="primary" @click="modal2 = false">Cancel</v-btn>
+                      <v-btn flat color="primary" @click="$refs.dialog.save(event.date.time)">OK</v-btn>
+                    </v-time-picker>
+                  </v-dialog>
+                </v-flex>
 
                 <!-- image area -->
-                <v-flex xs12 md6>
-                  <input
-                    type="file"
-                    :multiple="false"
-                    ref="fileInput"
-                    @change="onFileChange"
-                  >
+                <v-flex xs12>
+                  <v-card class="pa-4">
+                    <label><v-icon>mdi-paperclip</v-icon>Event Image: </label>
+                    <input
+                      type="file"
+                      :multiple="false"
+                      ref="fileInput"
+                      @change="onFileChange"
+                    >
+                  </v-card>
                 </v-flex>
 
                 <v-flex xs12 text-xs-right>
@@ -149,7 +180,7 @@ export default {
           day: "07",
           formated_date: new Date().toISOString().substr(0, 10),
           month: "07",
-          time: "456",
+          time: "",
           time_zone: "123",
           year: "123"
         },
@@ -164,7 +195,10 @@ export default {
       event_attire: ["Casual", "Cooktail", "Formal", "Smart Casual"],
       revenue_generation: ["Auction", "Dinner", "Gala", "Festival", "Trade Show"],
       status: ["Pending", "Not started", "In progress", "Finished"],
+      time_zone: ["Pacific", "Central", "Mountain", "Eastern"],
       reactive: true,
+      menu2: false,
+      modal2: false,
     };
   },
   methods: {
